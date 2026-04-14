@@ -153,17 +153,10 @@ def learn_kernel_svm_clf_best(
     y: np.ndarray
     ) -> BaseEstimator:
     #################### YOUR CODE COMES HERE ####################
-    from sklearn.model_selection import GridSearchCV
     model = Pipeline([
         ("scaler", StandardScaler()),
-        ("svm", SVC(kernel="rbf"))
+        ("svm", SVC(kernel="rbf", C=10, gamma=1))
     ])
-    param_grid = {
-        "svm__C": [0.1, 1, 10, 100, 1000],
-        "svm__gamma": [0.001, 0.01, 0.1, 1, 10]
-    }
-    grid_search = GridSearchCV(model, param_grid, cv=5, scoring="accuracy", n_jobs=-1)
-    grid_search.fit(X, y)
-    model = grid_search.best_estimator_
+    model.fit(X, y)
     ##############################################################
     return model
